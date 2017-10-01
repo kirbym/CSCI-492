@@ -5,6 +5,11 @@
 import sys
 import fractions
 
+if (len(sys.argv) < 4):
+    sys.exit("Too few arguments. python <script> <text.txt> <alpha> <beta>")
+elif (len(sys.argv) > 4):
+    sys.exit("Too many arguments. python <script> <text.txt> <alpha> <beta>")
+
 textfile = open(sys.argv[1], 'r')
 alpha = int(sys.argv[2]) % 26
 beta = int(sys.argv[3]) % 26

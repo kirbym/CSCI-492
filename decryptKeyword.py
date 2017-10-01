@@ -5,6 +5,11 @@
 import sys
 from string import ascii_uppercase
 
+if (len(sys.argv) < 3):
+    sys.exit("Too few arguments. python <script> <text.txt> <keyword>")
+elif (len(sys.argv) > 3):
+    sys.exit("Too many arguments. python <script> <text.txt> <keyword>")
+
 textfile = open(sys.argv[1], 'r')
 keyword = sys.argv[2]
 #print type(keyword), keyword

@@ -4,6 +4,11 @@
 
 import sys
 
+if (len(sys.argv) < 3):
+    sys.exit("Too few arguments. python <script> <text.txt> <offset>")
+elif (len(sys.argv) > 3):
+    sys.exit("Too many arguments. python <script> <text.txt> <offset>")
+
 textfile = open(sys.argv[1], 'r')
 offset = int(sys.argv[2]) % 26
 #print type(offest)
