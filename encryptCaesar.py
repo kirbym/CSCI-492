@@ -20,7 +20,7 @@ textfile.close()
 invalid_chars = ' \n,./<>?;:\'"[]{}\|-=_+!@#$%^&*()1234567890'
 plaintext = plaintext.translate(None, invalid_chars)  #remove invalid characters from string
 plaintext = plaintext.upper()   #convert all letters to uppercase
-print plaintext
+#print plaintext
 plaintext = map(lambda x: ord(x) - ord('A'), plaintext)   #convert plaintext into ASCII values, then to mod 26 by subtracting 'A' value
 #print plaintext
 ciphertext = map(lambda x: (x + offset) % 26, plaintext)  #convert plaintext into ciphertext by applying offset
@@ -28,7 +28,7 @@ ciphertext = map(lambda x: (x + offset) % 26, plaintext)  #convert plaintext int
 ciphertext = map(lambda x: chr(x + ord('A')), ciphertext)  #convert new numbers to respective characters
 #print ciphertext
 ciphertext = "".join(ciphertext)  #join all letters from ciphertext list into one string
-print ciphertext
+#print ciphertext
 
 #open a new file and write encrypted messsage to file
 secretfile = open('secretmsg.txt', 'w')
