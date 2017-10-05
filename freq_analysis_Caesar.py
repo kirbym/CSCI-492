@@ -6,6 +6,7 @@
 # http://practicalcryptography.com/cryptanalysis/letter-frequencies-various-languages/english-letter-frequencies/
 
 import sys
+import encryptCaesar
 
 monogram_freq = {
 "A" :  8.55,        "K" :  0.81,        "U" :  2.68,
@@ -100,8 +101,12 @@ def meanSquaredError(actual, observed):
     return float(accumulator) / len(observed.keys())
 ##########################################################################
 
-print len(bigram_freq)
-print len(digram_freq)
+#print len(bigram_freq)
+#print len(digram_freq)
+
+for i in range(26):
+  pass
+  
 
 monogram_error = round(meanSquaredError(monogram_freq, letter_freq), 5)
 digram_error = round(meanSquaredError(bigram_freq, digram_freq), 5)
