@@ -23,9 +23,9 @@ def verifyAlpha(alpha):
     else:
         sys.exit("Error: Invalid alpha value. Alpha must be relatively prime to 26.")
 
-def findMultInverse(alpha):
+def findMultInverse(a):
     for i in xrange(26):
-        if((alpha * i) % 26 == 1):
+        if((a * i) % 26 == 1):
             return i
 
 alpha = verifyAlpha(alpha)  #check that alpha is relatively prime to 26 (gcd(alpha, 26) = 1)
