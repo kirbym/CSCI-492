@@ -7,6 +7,7 @@
 
 import sys
 import caesar
+import affine
 
 #Find the mean squared error of a set of data
 #actual: dictionary object containing the theoretical data value
@@ -20,7 +21,6 @@ def meanSquaredError(actual, observed):
     return float(accumulator) / len(observed.keys())
 
 #Find the minimum value of a list of data and the index associated with it
-#listData: list object containing data values
 def findMinOfList(listData):
     index = 0
     minimum = listData[0]
@@ -76,6 +76,58 @@ def etTuBrute(raw_text):
     predicted_offset, predicted_min = findMinOfList(stats)
     print "Predicted Key:", predicted_offset, "Error:", predicted_min
 
+#Method to brute force the Affine cipher testing all possibilities for alpha and beta and predicting the encryption values
+#alpha must be relatively prime to 26  {1, 3, 5, 7, 9, 11, 15, 17, 19, 21, 23, 25}  -> 12 choices
+#beta can be any integer from 0 to 25 -> 26 choices
+#total options: 12*26 = 312
+def crackAffine(raw_text):
+    stats = []  #will hold the error statistics
+    alphabeta = []   #track the alpha beta combinations
+    for a in xrange(26):
+        if affine.verifyAlpha(a):
+            for b in xrange(26):
+                text = affine.decrypt(raw_text, a, b)  #decrypt the text with all options
+
+                #count the number of occurances of each unique letter
+                letter_count = {}
+                for i in xrange(len(text)):
+                    if text[i] in letter_count.keys():
+                        letter_count[text[i]] += 1
+                    elif text[i] not in letter_count.keys():
+                        letter_count[text[i]] = 1
+
+                #calculate the frequency of the letters
+                letter_freq = {}
+                for key in letter_count.keys():
+                    letter_freq[key] = round(float(letter_count[key]) / len(text) * 100, 5)
+
+                #count the number of occurances of digrams in the text
+                digram_count = {}
+                n = 0
+                while n < len(text):
+                    if text[n:n+2] in digram_count.keys():
+                        digram_count[text[n:n+2]] += 1
+                    elif text[n:n+2] not in digram_count.keys():
+                        digram_count[text[n:n+2]] = 1
+                    n += 2
+
+                #calculate the frequency of the digrams
+                digram_freq = {}
+                for key in digram_count.keys():
+                    digram_freq[key] = round(float(digram_count[key]) / len(text) / 2 * 100, 5)
+
+                #calculate errors
+                monogram_error = round(meanSquaredError(monogram_freq, letter_freq), 5)
+                digram_error = round(meanSquaredError(bigram_freq, digram_freq), 5)
+
+                print "a =", a, "b =", b, (monogram_error + digram_error) / 2
+                stats.append((monogram_error + digram_error) / 2)
+                alphabeta.append((a, b))
+
+    #make a prediction about what values were used to encrypt the text
+    predicted_index, predicted_min = findMinOfList(stats)
+    print "Predicted Alpha =", alphabeta[predicted_index][0], "Predicted Beta =", alphabeta[predicted_index][1], "Error:", predicted_min
+
 if __name__ == "__main__":
 
     monogram_freq = {
@@ -115,9 +167,9 @@ if __name__ == "__main__":
 
     #verify correct number of arguments given on the command line
     if (len(sys.argv) < 2):
-        sys.exit("Too few arguments. python <script> <text.txt>")
+        sys.exit("Too few arguments. python freq_analysis.py <text.txt>")
     elif (len(sys.argv) > 2):
-        sys.exit("Too many arguments. python <script> <text.txt>")
+        sys.exit("Too many arguments. python freq_analysis.py <text.txt>")
 
     #open the file and read the text
     textfile = open(sys.argv[1], 'r')
@@ -126,4 +178,8 @@ if __name__ == "__main__":
 
     #brute force the encrypted text using the Caesar shift scheme
     #determine what offset value was used to encrypt text
-    etTuBrute(input_text)
+    #etTuBrute(input_text)
+
+    #brute force the encrypted text using the Affine shift scheme
+    #determine which values were used to encrypt text
+    crackAffine(input_text)
