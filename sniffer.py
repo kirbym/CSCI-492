@@ -70,15 +70,19 @@ while True:
             doff_reserved = tcph[4]
             tcph_length = doff_reserved >> 4
 
-            print 'Source Port : ' + str(source_port) + ' Dest Port : ' + str(dest_port) + ' Sequence Number : ' + str(sequence) + ' Acknowledgement : ' + str(acknowledgement) + ' TCP header length : ' + str(tcph_length)
+            #original does not have 'if' statement
+            #narrowing down what packets are shown by dst port 9009 (the chat server is on this port)
+            #only want packets that show the data
+            if dest_port == 9009:
+                print 'Source Port : ' + str(source_port) + ' Dest Port : ' + str(dest_port) + ' Sequence Number : ' + str(sequence) + ' Acknowledgement : ' + str(acknowledgement) + ' TCP header length : ' + str(tcph_length)
 
-            h_size = eth_length + iph_length + tcph_length * 4
-            data_size = len(packet) - h_size
+                h_size = eth_length + iph_length + tcph_length * 4
+                data_size = len(packet) - h_size
 
-            #get data from the packet
-            data = packet[h_size:]
+                #get data from the packet
+                data = packet[h_size:]
 
-            print 'Data : ' + data
+                print 'Data : ' + data
 
         #ICMP Packets
         elif protocol == 1 :
