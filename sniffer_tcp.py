@@ -31,7 +31,7 @@ while True:
     eth_header = packet[:eth_length]
     eth = unpack('!6s6sH' , eth_header)
     eth_protocol = socket.ntohs(eth[2])
-    print 'Destination MAC : ' + eth_addr(packet[0:6]) + ' Source MAC : ' + eth_addr(packet[6:12]) + ' Protocol : ' + str(eth_protocol)
+    #print 'Destination MAC : ' + eth_addr(packet[0:6]) + ' Source MAC : ' + eth_addr(packet[6:12]) + ' Protocol : ' + str(eth_protocol)
 
     #Parse IP packets, IP Protocol number = 8
     if eth_protocol == 8 :
@@ -83,7 +83,5 @@ while True:
                 print 'Data : ' + data
 
         #some other IP packet like IGMP
-        else :
-            print 'Protocol other than TCP/UDP/ICMP'
-
-        print
+        #else :
+            #print 'Protocol other than TCP/UDP/ICMP'
