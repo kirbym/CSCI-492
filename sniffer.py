@@ -1,6 +1,7 @@
 #Packet sniffer in python
 #For Linux - Sniffs all incoming and outgoing packets :)
 #Silver Moon (m00n.silv3r@gmail.com)
+#http://www.binarytides.com/python-packet-sniffer-code-linux/
 
 import socket, sys
 from struct import *
